@@ -100,7 +100,7 @@ function DataTable({ tickets, session }: Props) {
                       className="border-none"
                       variant="outline"
                       size="icon"
-                      onClick={() => deleteFunction(ticket.id)}
+                      onClick={() => deleteFunction(String(ticket.id))}
                     >
                       <Trash className="hover:cursor-pointer hover:text-red-600" />
                     </Button>
