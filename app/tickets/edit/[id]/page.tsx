@@ -4,7 +4,6 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import { Ticket } from "@prisma/client";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -18,31 +17,35 @@ const TicketForm = dynamic(() => import("@/components/TicketForm"), {
 });
 
 function EditTicket({ params }: Props) {
-  const [tickets, setTickets] = useState("");
+  const [ticket, setTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getTicketDetails = async () => {
-      const { data } = await axios.get(`/api/tickets/${parseInt(params.id)}`);
+      try {
+        const { data } = await axios.get(`/api/tickets/${parseInt(params.id)}`);
 
-      if (data) {
+        if (data) {
+          setTicket(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch ticket details", error);
+      } finally {
         setLoading(false);
-        setTickets(data);
       }
     };
+
     getTicketDetails();
-  }, []);
+  }, [params.id]);
 
   return (
     <div>
       {loading ? (
-        <div className="flex w-full item-center justify-center ">
-          <div>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin " />
-          </div>
+        <div className="flex w-full items-center justify-center">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         </div>
       ) : (
-        <TicketForm ticket={tickets} />
+        ticket && <TicketForm ticket={ticket} />
       )}
     </div>
   );
