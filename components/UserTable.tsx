@@ -13,7 +13,8 @@ import Link from "next/link";
 import { Pencil } from "lucide-react";
 
 interface Props {
-  user: User[];
+  user?: User;
+  userData?: User[];
 }
 async function UserTable({ user }: Props) {
   const userData = await prisma.user.findMany();

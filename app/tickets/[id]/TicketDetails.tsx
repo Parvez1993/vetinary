@@ -75,10 +75,12 @@ async function TicketDetails({ ticket, users, role }: Props) {
 
         {isAuthorizedToAssign(session) && (
           <div className="flex flex-wrap flex-col gap-2 w-1/5">
-            <div className=" ">
-              <Label>Assign to User</Label>
-              <AssignTicket ticket={ticket} users={users} />
-            </div>
+            {ticket && users && (
+              <div className=" ">
+                <Label>Assign to User</Label>
+                <AssignTicket ticket={ticket} users={users} />
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { Badge } from "./ui/badge";
 
 interface Props {
-  status: TicketStatus;
+  status?: TicketStatus;
 }
 
 const statusMap: Record<
@@ -13,9 +13,16 @@ const statusMap: Record<
   OPEN: { label: "Open", color: "bg-red-400" },
   STARTED: { label: "Started", color: "bg-blue-400" },
   CLOSED: { label: "Closed", color: "bg-green-400" },
+  CANCELLED: {
+    label: "",
+    color: "bg-red-400",
+  },
 };
 
 function TicketStatusBadge({ status }: Props) {
+  if (!status) {
+    return null; // or you can return a default badge
+  }
   return (
     <Badge className={`${statusMap[status].color}`}>
       {statusMap[status].label}

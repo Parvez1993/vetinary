@@ -3,7 +3,7 @@ import { Cat } from "lucide-react";
 import React from "react";
 
 interface Props {
-  priority: PRIORITY;
+  priority?: PRIORITY;
 }
 
 // Define the mapping between TicketStatus and badge properties
@@ -14,21 +14,29 @@ const priorityMap: Record<PRIORITY, { label: string; level: 1 | 2 | 3 }> = {
 };
 
 function TicketPriority({ priority }: Props) {
+  // Provide a default priority if none is provided
+  const effectivePriority = priority || "LOW";
   return (
     <>
       <Cat
         className={`${
-          priorityMap[priority].level >= 1 ? "text-primary" : "text-muted"
+          priorityMap[effectivePriority].level >= 1
+            ? "text-primary"
+            : "text-muted"
         }`}
       />
       <Cat
         className={`${
-          priorityMap[priority].level >= 2 ? "text-primary" : "text-muted"
+          priorityMap[effectivePriority].level >= 2
+            ? "text-primary"
+            : "text-muted"
         }`}
       />
       <Cat
         className={`${
-          priorityMap[priority].level >= 3 ? "text-primary" : "text-muted"
+          priorityMap[effectivePriority].level >= 3
+            ? "text-primary"
+            : "text-muted"
         }`}
       />
     </>

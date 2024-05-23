@@ -15,7 +15,7 @@ export interface SearchParams {
 
 const PAGE_SIZE = 10;
 
-const buildWhereClause = (status: string, date: string, session) => {
+const buildWhereClause = (status: string, date: string, session: any) => {
   let where: any = {};
 
   if (status) {
@@ -55,6 +55,10 @@ const fetchTicketsData = async (where: any, page: number) => {
 
 const Tickets = async ({ searchParams }: { searchParams: SearchParams }) => {
   const session = await getServerSession(options);
+
+  if (!session) {
+    return <div>Please log in to view tickets.</div>;
+  }
 
   const page = parseInt(searchParams.page) || 1;
   const where = buildWhereClause(

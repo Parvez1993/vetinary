@@ -23,10 +23,10 @@ import { toast } from "sonner";
 import DateFilter from "../../components/DateFilter";
 
 interface Props {
-  tickets: Ticket[];
-  session: {
-    user: {
-      role: string;
+  tickets?: Ticket[];
+  session?: {
+    user?: {
+      role?: string;
     };
   };
 }
@@ -68,7 +68,7 @@ function DataTable({ tickets, session }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tickets.map((ticket) => (
+          {tickets?.map((ticket) => (
             <TableRow key={ticket.id}>
               <TableCell>
                 <Link href={`/tickets/${ticket.id}`}>{ticket.title}</Link>
