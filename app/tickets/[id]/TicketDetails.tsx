@@ -29,31 +29,30 @@ interface Props {
 
 async function TicketDetails({ ticket, users, role }: Props) {
   const session = await getServerSession(options);
+
   return (
     <Card className="mx-6 lg:mx-0">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <TicketStatusBadge status={ticket?.status} />
+          {ticket && <TicketStatusBadge status={ticket.status} />}
           <div className="flex gap-1">
-            <TicketPriority priority={ticket?.priority} />
+            {ticket && <TicketPriority priority={ticket.priority} />}
           </div>
         </div>
-        <CardTitle className="text-2xl py-5">{ticket?.title} </CardTitle>
+        <CardTitle className="text-2xl py-5">{ticket?.title}</CardTitle>
         <CardDescription>
-          Created: {moment(ticket?.createdAt).format("DD/MM/YYYY hh:mm A")}
+          Created:{" "}
+          {ticket && moment(ticket.createdAt).format("DD/MM/YYYY hh:mm A")}
         </CardDescription>
       </CardHeader>
       <CardContent className="prose">
-        {" "}
         <ReactMarkDown>{ticket?.description}</ReactMarkDown>
       </CardContent>
-
       {ticket?.updatedAt && (
         <CardFooter className="text-sm text-muted-foreground">
-          Updated: {moment(ticket?.updatedAt).format("DD/MM/YYYY hh:mm A")}
+          Updated: {moment(ticket.updatedAt).format("DD/MM/YYYY hh:mm A")}
         </CardFooter>
       )}
-
       <div className="flex flex-wrap gap-4 mx-5 my-5 items-center justify-between w-4/5">
         {isAuthorizedToUpdate(session) && (
           <Link
@@ -65,14 +64,12 @@ async function TicketDetails({ ticket, users, role }: Props) {
             Update Tickets
           </Link>
         )}
-
         {isAuthorizedToStatus(session) && (
           <div className="my-3">
             <Label>Status Change</Label>
             <UpdateStatus ticket={ticket} />
           </div>
         )}
-
         {isAuthorizedToAssign(session) && (
           <div className="flex flex-wrap flex-col gap-2 w-1/5">
             {ticket && users && (
