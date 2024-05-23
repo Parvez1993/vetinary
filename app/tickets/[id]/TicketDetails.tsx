@@ -34,9 +34,9 @@ async function TicketDetails({ ticket, users, role }: Props) {
     <Card className="mx-6 lg:mx-0">
       <CardHeader>
         <div className="flex justify-between items-center">
-          {ticket && <TicketStatusBadge status={ticket.status} />}
+          {ticket && <TicketStatusBadge status={ticket?.status} />}
           <div className="flex gap-1">
-            {ticket && <TicketPriority priority={ticket.priority} />}
+            {ticket && <TicketPriority priority={ticket?.priority} />}
           </div>
         </div>
         <CardTitle className="text-2xl py-5">{ticket?.title}</CardTitle>
