@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Ticket {
+  id               Int          @id @default(autoincrement())
+  title            String       @db.VarChar(255)
+  description      String       @db.Text
+  status           TicketStatus @default(OPEN)
+  price            Int
+  priority         PRIORITY     @default(MEDIUM)
+  animal           Animal
+  appointment      DateTime     @default(now())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  assignedToUserId Int?
+  assignedToUser   User?        @relation(fields: [assignedToUserId], references: [id])
+}
+
+enum TicketStatus {
+  OPEN
+  STARTED
+  CLOSED
+  CANCELLED
+}
+
+enum PRIORITY {
+  HIGH
+  LOW
+  MEDIUM
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  name            String
+  username        String   @unique
+  password        String
+  role            Role     @default(USER)
+  assignedTickets Ticket[]
+}
+
+enum Role {
+  ADMIN
+  VETINARY
+  ASSISTANT
+  USER
+}
+
+enum Animal {
+  CAT
+  DOG
+  BIRD
+  COW
+  GOAT
+  OTHERS
+}
